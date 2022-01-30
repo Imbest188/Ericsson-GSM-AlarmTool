@@ -1,0 +1,51 @@
+body {
+    background-color:#0e131c;
+    color:white;
+}
+
+table {
+	width:100%;
+	background-color:#0b1629;
+	color:white;
+	font-weight:bold;
+}
+tr:nth-child(2n) {
+	background-color:#061021;
+}
+td:nth-child(2n) {
+
+}
+
+tr:hover {
+    background-color:#80afff;
+    color:black;
+}
+
+.red{
+    background-color:#ff7c73;
+    color:black;
+}
+
+.orange{
+    background-color:#f58c5f;
+    color:black;
+}
+
+.yellow{
+    background-color:#fcd18b;
+    color:black;
+}
+
+.lightblue{
+    background-color:#79a9fc;
+    color:black;
+}
+
+.blue{
+    background-color:#8be8fc;
+    color:black;
+}
+
+.coloredrow{
+
+}
