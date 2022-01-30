@@ -52,7 +52,7 @@ class Alarm:
     def __parse_content(self, alarm_data=''):
         self.text = alarm_data
         alarm_data = alarm_data.replace('RADIO X-CEIVER ADMINISTRATION', '')
-        lines_repr = [x for x in alarm_data.split('\n') if x != '']
+        lines_repr = [x for x in alarm_data.split('\n') if x != '' and not x.startswith('WO')]
         self.__parse_header(lines_repr[0:2])
         if len(lines_repr) > 3:
             if 'DIGITAL PATH QUALITY SUPERVISION' in alarm_data:
@@ -111,6 +111,6 @@ class AlarmParser:
                 .replace(head, '')\
                 .replace('ALARM SLOGAN', 'ALARM_SLOGAN')\
                 .split('\n\n\n'):
-            if re.findall(r'[A|O][1-3]', block):
+            if re.findall(r'^[A|O][1-3]', block):
                 alarms.append(Alarm(block.strip()))
         return alarms
