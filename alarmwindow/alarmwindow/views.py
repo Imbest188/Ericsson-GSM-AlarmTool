@@ -17,14 +17,16 @@ class AlarmView(TemplateView):
     def get(self, request, **kwargs):
         alarms = AlarmParser.parse_node_output(self.telnet.get('allip;'))
         #print([x.date_time for x in alarms])
-        alarms.sort(key=lambda x: x.date_time, reverse=True)
+
+        print([x.text for x in alarms if x.type == 'str'])
+        alarms.sort(key=lambda x: x.date_time, reverse=False)
+
         for alarm in alarms:
             if 'RBL' in alarm.managed_object:
                 alarm.object_name = self.telnet.getRblOwner(alarm.managed_object)
 
         ctx = {'charging': [], 'alarms': alarms}
         if is_ajax(request) and request.method == "GET":
-            print('ajax')
             return JsonResponse({"alarms": [x.toDict() for x in alarms]}, status=200)
         return render(request, self.template_name, ctx)
 

@@ -12,7 +12,7 @@ class Alarm:
                 info_line[-1] = info_line[-1] + '00'
             self.date_time = dt.strptime(f'{info_line[-2]} {info_line[-1]}', "%y%m%d %H%M%S")
         except:
-            print(f'exc with {info_line[-2]} {info_line[-1]}')
+            print(f'exc with {info_line[-2]} {info_line[-1]}\n{header_parts}')
         self.descr = header_parts[-1]
 
     def __dict__(self):
@@ -90,7 +90,10 @@ class Alarm:
         self.slogan = ''
         self.descr = ''
         self.text = ''
-        self.__parse_content(alarm_text)
+        try:
+            self.__parse_content(alarm_text)
+        except:
+            print(alarm_text)
 
     def __str__(self):
         return f'type:{self.type} dt:{self.date_time} mo:{self.managed_object} name:{self.object_name}' \

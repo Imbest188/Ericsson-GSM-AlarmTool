@@ -141,7 +141,6 @@ class EricssonTelnet:
         for i in range(6):
             time.sleep(1)
             answer = self.__telnet.read_very_eager()
-            print(answer)
             if b'login' in answer:
                 self.__telnet.write(self.__login.encode('ascii') + b'\r\n')
             elif b'assword' in answer:
