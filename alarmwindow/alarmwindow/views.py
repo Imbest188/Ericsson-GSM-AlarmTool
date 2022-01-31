@@ -18,7 +18,7 @@ class AlarmView(TemplateView):
         alarms = AlarmParser.parse_node_output(self.telnet.get('allip;'))
         #print([x.date_time for x in alarms])
 
-        print([x.text for x in alarms if x.type == 'str'])
+        #print([x.text for x in alarms if x.type == 'str'])
         alarms.sort(key=lambda x: x.date_time, reverse=False)
 
         for alarm in alarms:
