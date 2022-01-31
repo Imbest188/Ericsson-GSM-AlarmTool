@@ -46,6 +46,7 @@
                         var row = $(this).closest("tr");//[0];
                         row[0].addEventListener("click", function() {
                             alert(row.find(".coloredrow").text());
+                            $(this).css({background: 'green'});
                         });
                     });
                     // videoBox.addEventListener("click", function() {
