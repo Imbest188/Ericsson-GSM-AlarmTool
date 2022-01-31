@@ -39,64 +39,43 @@
                         else if (x.includes("A3/")) $(this).css({background: '#fcd18b'});
                         else if (x.includes("O1/")) $(this).css({background: '#79a9fc'});
                         else if (x.includes("O2/")) $(this).css({background: '#8be8fc'});
+
                     });
 
+                    $("tr.clickablerow").each(function (index){
+                        var row = $(this).closest("tr");//[0];
+                        row[0].addEventListener("click", function() {
+                            alert(row.find(".coloredrow").text());
+                        });
+                    });
+                    // videoBox.addEventListener("click", function() {
+                    //     alert("123");
+                    // });
+
+                    /*
+                    $(document.querySelector('.clickablerow')).each(function () {
+                    //$('tr.clickablerow').each(function () {
+                        //var x = $(this);
+                        //alert(e);
+                        $(this).addEventListener("click", function (e) { alert("123"); });
+                    });
+
+                     */
                 },
                 error: function (response) {
                     alert("Error");
-                    console.log(response.responseJSON.errors)
+                    console.log(response)
                 }
             });
             return false;
         };
         //$('#update-form').submit(function (event) {event.preventDefault(); updateAlarms();});
         $(document).ready(updateAlarms());
-        $('#alarm_table tr').dblclick(function(){
+        $('#alarm_table td').dblclick(function(){
             //var id = $(this).attr('id');
-            alert($(this).attr('Name'));
+            alert("+1");
+            //alert($(this).attr('Name'));
         })
-        /*
-        $(document).ready(function () {
-            $('#update-form').submit(function () {
-                $.ajax({
-                    //data: $(this).serialize(), // получаем данные формы
-                    type: $(this).attr('GET'), // GET или POST
-                    url: "{% url 'alarms' %}",
-                    success: function (response) {
-                        $("#alarm_table tbody").html("");
-                        $.each(response["alarms"], function (index, item) {
-                            // language=HTML
-
-                            $("#alarm_table tbody").prepend(
-                                `<tr>
-                                    <td class="coloredrow">${item["type"]}</td>
-                                    <td>${item["date_time"].replace("-", ".").replace("-", ".").replace("T", " ")}</td>
-                                    <td>${item["managed_object"]}</td>
-                                    <td>${item["object_name"]}</td>
-                                    <td>${item["slogan"]}</td>
-                                    <td>${item["descr"]}</td>
-                                </tr>`
-                            )
-                        });
-                        $('td.coloredrow').each(function () {
-                            var x = $(this).text();
-                            if (x.includes("A1/")) $(this).css({background: '#ff7c73'});
-                            else if (x.includes("A2/")) $(this).css({background: '#f58c5f'});
-                            else if (x.includes("A3/")) $(this).css({background: '#fcd18b'});
-                            else if (x.includes("O1/")) $(this).css({background: '#79a9fc'});
-                            else if (x.includes("O2/")) $(this).css({background: '#8be8fc'});
-                        });
-
-                    },
-                    error: function (response) {
-                        // предупредим об ошибке
-                        alert("Error");
-                        console.log(response.responseJSON.errors)
-                    }
-                });
-                return false;
-            });
-        })*/
     </script>
 
 </head>

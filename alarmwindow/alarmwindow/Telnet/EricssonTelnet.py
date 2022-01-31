@@ -97,7 +97,9 @@ class EricssonTelnet:
             self.__telnet.write(b'\r\n')
             time.sleep(0.2)
             check_state = self.__telnet.read_very_eager().decode('ascii').lower()
-            if 'timeout' in check_state or 'login' in check_state or 'wo' not in check_state:
+            if 'timeout' in check_state or 'login' in check_state:
+                print('Error:')
+                print(check_state)
                 self.__connect()
                 self.__telnet.write(b'\r\n')
         except ConnectionError:
