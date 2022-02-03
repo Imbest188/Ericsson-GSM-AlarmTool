@@ -50,7 +50,6 @@ class Alarm:
         return result
 
     def __parse_content(self, alarm_data=''):
-        self.text = alarm_data
         alarm_data = alarm_data.replace('RADIO X-CEIVER ADMINISTRATION', '')
         lines_repr = [x for x in alarm_data.split('\n') if x != '' and not x.startswith('WO')]
         self.__parse_header(lines_repr[0:2])
@@ -89,7 +88,7 @@ class Alarm:
         self.object_name = ''
         self.slogan = ''
         self.descr = ''
-        self.text = ''
+        self.text = alarm_text
         try:
             self.__parse_content(alarm_text)
         except:
