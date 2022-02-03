@@ -20,6 +20,9 @@ class EricssonTelnet:
         self.__connect()
         self.__run_listening()
 
+    def get_auth_data(self) -> dict:
+        return {'host': self.__ip, 'login': self.__login, 'pwd': self.__password}
+
     def is_alive(self):
         return self.__is_alive
 

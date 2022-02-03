@@ -1,8 +1,15 @@
 from .EricssonTelnet import EricssonTelnet
 
 
-class EricssonBsc(EricssonTelnet):
+class EricssonNode(EricssonTelnet):
+    def __init__(self, ip, login, password):
+        super().__init__(ip, login, password)
 
+    def read_alarms(self):
+        return self.get('allip;')
+
+
+class EricssonBsc(EricssonNode):
     class BaseStation:
         def __init__(self, tg, name):
             self.tg = tg
