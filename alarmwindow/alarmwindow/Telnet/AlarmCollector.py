@@ -15,7 +15,8 @@ class AlarmCollector:
 
     def get_active_alarms(self, key) -> list:
         if key in self.__nodes.keys():
-            self.__nodes[key].
+            pass#self.__nodes[key].
+        return list()
 
     # may be async
     def add_node(self, host, login, password, name, node_type, override=True):
