@@ -1,5 +1,5 @@
 from django.db import models
 
 
-class Alarm(models.Model):
+class Alarms(models.Model):
     pass

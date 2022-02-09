@@ -12,7 +12,7 @@ def is_ajax(request):
 
 class AlarmView(TemplateView):
     template_name = 'alarmwindow/alarms.html'
-    telnet = EricssonBsc('172.25.157.99', 'administrator', 'Administrator1@')#('10.104.133.3', 'administrator', 'Administrator1@')#('172.25.157.99', 'administrator', 'Administrator1@')#'10.140.3.7', 'ts_user', 'apg43l2@')
+    #telnet = EricssonBsc('172.25.157.99', 'administrator', 'Administrator1@')#('10.104.133.3', 'administrator', 'Administrator1@')#('172.25.157.99', 'administrator', 'Administrator1@')#'10.140.3.7', 'ts_user', 'apg43l2@')
 
     def get(self, request, **kwargs):
         alarms = AlarmParser.parse_node_output(self.telnet.get('allip;'))
