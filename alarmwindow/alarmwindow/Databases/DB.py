@@ -1,10 +1,11 @@
 from sqlalchemy import create_engine, insert, update, delete, select, exc
-from sqlalchemy import MetaData, Table, String, Integer, Column, Text, DateTime, Boolean
-from Telnet import Alarm
+from sqlalchemy import MetaData, Table, String, Integer, Column, Boolean
+from ..Telnet.Alarm import Alarm
 
 
 class AlarmDatabase:
     def __init__(self):
+        print('init')
         self.engine = create_engine('sqlite:///alarms.db')
         self.create_alarm_table()
         self.clear_tables()
@@ -16,7 +17,7 @@ class AlarmDatabase:
 
     def create_alarm_table(self):
         metadata = MetaData()
-        self.alarms = Table('Alarms', metadata,
+        self.alarms = Table('alarmwindow_alarms', metadata,
                             Column('id', Integer(), nullable=False),
                             Column('type', String(7), nullable=False),
                             Column('raising_time', String(15), nullable=False),
@@ -30,7 +31,7 @@ class AlarmDatabase:
                             Column('node_id', Integer())
                             )
 
-        self.nodes = Table('Nodes', metadata,
+        self.nodes = Table('alarmwindow_nodes', metadata,
                            Column('id', Integer(), autoincrement=True, primary_key=True),
                            Column('name', String(20), nullable=False, unique=True),
                            Column('update_id', Integer(), default=0)

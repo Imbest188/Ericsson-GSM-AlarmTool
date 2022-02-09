@@ -1,7 +1,7 @@
 import time
 
-from Telnet.EricssonNode import EricssonBsc, EricssonNode
-from Databases.DB import AlarmDatabase
+from .EricssonNode import EricssonBsc, EricssonNode
+from ..Databases.DB import AlarmDatabase
 from threading import Thread
 
 import json
@@ -43,6 +43,7 @@ class AlarmCollector:
         return new_dict
 
     def add_node(self, host, login, password, name, node_type, override=True):
+        print(f'add node {host}')
         node = EricssonBsc(host, login, password) if node_type == 'bsc' \
             else EricssonNode(host, login, password)
         if node.is_alive():

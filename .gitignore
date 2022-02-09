@@ -112,3 +112,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+*.xml
+*.meta
+alarmwindow/alarms.db
+nodes.ini
+alarmwindow/nodes.ini
