@@ -7,6 +7,10 @@ function timeToString(dt) {
         .replace("Z", " ");
 }
 
+function close_footer(){
+    $('.alarm_footer').css('height', '0px');
+}
+
 function get_alarm_text(alarm_id, controller_name) {
     $.ajax({
         type: $(this).attr('GET'),
@@ -25,7 +29,7 @@ function get_alarm_text(alarm_id, controller_name) {
         },
         error: function (response) {
             $('#alarm_text').html('Error');
-            console.log(response)
+            $('.alarm_footer').css('height', '30px');
         }
     })
 
@@ -36,6 +40,7 @@ var current_controller = "BSC03";
 
 function updateAlarms(node_name) {
     current_controller = node_name;
+    $('.alarm_footer').css('height', 0);
     $('html').animate({
         scrollTop: 0
       }, 30
@@ -75,10 +80,8 @@ function updateAlarms(node_name) {
             $("tr.clickablerow").each(function (index) {
                 var row = $(this).closest("tr");
                     row[0].addEventListener("click", function() {
-
                         var id = row.find(".id").text();
                         get_alarm_text(id, current_controller);
-
                     });
                 });
 
@@ -91,4 +94,3 @@ function updateAlarms(node_name) {
     return false;
 };
 $(document).ready(updateAlarms());
-//$('#alarm_table td').dblclick();

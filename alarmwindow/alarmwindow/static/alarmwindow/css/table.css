@@ -70,13 +70,29 @@ tr:hover {
 }
 
 .alarm_footer{
-    background-color: #0a0c33;
+    background-color: #0a0c43;
+    border: solid #79a9fc;
+    border-top-width: 2px;
     position: sticky;
     overflow: visible;
-    height: 160px;
+    height: 0;
+    transform: translate(+60%, 0%);
     bottom: 0;
-    left: 0;
+    z-index: 0;
     color: white;
+    width: 40%;
+}
+
+#alarm_text{
+    margin-left: 5%;
+}
+
+#close_footer{
+    position: absolute;
+    background-color: white;
+    overflow: visible;
+    z-index: 10;
+    right: 1%;
 }
 
 .btn.btn-primary:active{
