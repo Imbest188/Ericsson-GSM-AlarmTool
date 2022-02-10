@@ -7,11 +7,38 @@ function timeToString(dt) {
         .replace("Z", " ");
 }
 
-function updateAlarms(node_id) {
+function get_alarm_text(alarm_id, controller_name) {
+    $.ajax({
+        type: $(this).attr('GET'),
+        url: alarm_text_request,
+        data: {
+            alarm_id: alarm_id,
+            controller: controller_name
+        },
+        success: function (response) {
+            alert(response['text'])
+        },
+        error: function (response) {
+            alert("Error");
+            console.log(response)
+        }
+    })
+
+
+}
+
+var current_controller = "BSC03";
+
+function updateAlarms(node_name) {
+    current_controller = node_name;
+    $('html').animate({
+        scrollTop: 0
+      }, 30
+    );
     $.ajax({
         type: $(this).attr('GET'),
         url: alarm_template,
-        data: {id: node_id},
+        data: {node: node_name},
         success: function (response) {
             $("#alarm_table tbody").html("");
             $.each(response["alarms"], function (index, item) {
@@ -20,7 +47,7 @@ function updateAlarms(node_id) {
                     `
                         <tr class="clickablerow">
                             <td class="coloredrow">${item["type"]}</td>
-                            <td>${item["id"]}</td>
+                            <td class="id">${item["id"]}</td>
                             <td>${timeToString(item["raising_time"])}</td>
                             <td>${timeToString(item["ceasing_time"])}</td>
                             <td>${item["managed_object"]}</td>
@@ -42,11 +69,14 @@ function updateAlarms(node_id) {
 
             $("tr.clickablerow").each(function (index) {
                 var row = $(this).closest("tr");
-                row[0].addEventListener("click", function () {
-                    alert(row.find(".coloredrow").text());
-                    $(this).css({background: 'green'});
+                    row[0].addEventListener("click", function() {
+
+                        var id = row.find(".id").text();
+                        get_alarm_text(id, current_controller);
+
+                    });
                 });
-            });
+
         },
         error: function (response) {
             alert("Error");
@@ -56,8 +86,4 @@ function updateAlarms(node_id) {
     return false;
 };
 $(document).ready(updateAlarms());
-$('#alarm_table td').dblclick(function () {
-    //var id = $(this).attr('id');
-    alert("+1");
-    //alert($(this).attr('Name'));
-})
+//$('#alarm_table td').dblclick();

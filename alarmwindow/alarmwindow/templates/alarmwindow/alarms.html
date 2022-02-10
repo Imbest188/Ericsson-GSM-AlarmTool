@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="{% static 'alarmwindow/css/table.css' %}">
     <link rel="stylesheet" href="{% static 'alarmwindow/css/controller-button.css' %}">
     <script src="{% static 'alarmwindow/js/table-sort.js' %}"></script>
-    <script>const alarm_template = "{% url 'alarms' %}"</script>
+    <script>
+        const alarm_template = "{% url 'alarms' %}";
+        const alarm_text_request = "{% url 'get_alarm_text' %}";
+    </script>
     <script src="{% static 'alarmwindow/js/alarms.js' %}"></script>
 
-    <form class="alarm_header">
+    <form class="alarm_header" method="GET">
         <div class="col align-content-xxl-stretch">
-            <button class="controller-button" role="button">Button 78</button>
-            <button class="controller-button" role="button">Button 78</button>
-            <button class="controller-button" role="button">Button 78</button>
-            <input type="button" class="controller-button" value="BSC03" onclick="updateAlarms(1)"/>
-            <input type="button" class="controller-button" value="BSC04" onclick="updateAlarms(2)"/>
-            <input type="button" class="controller-button" value="BSC05" onclick="updateAlarms(3)"/>
+            <button class="controller-button" role="button" onclick="updateAlarms($(this).text()); return false;">BSC03</button>
+            <button class="controller-button" role="button" onclick="updateAlarms($(this).text()); return false;">BSC04</button>
+            <button class="controller-button" role="button" onclick="updateAlarms($(this).text()); return false;">BSC05</button>
         </div>
     </form>
 </head>

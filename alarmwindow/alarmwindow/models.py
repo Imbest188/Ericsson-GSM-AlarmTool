@@ -25,3 +25,9 @@ class Alarms(models.Model):
             'slogan': self.slogan,
             'descr': self.descr
         }
+
+
+class Nodes(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=20)
+    update_id = models.IntegerField()

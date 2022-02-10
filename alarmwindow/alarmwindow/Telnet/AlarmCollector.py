@@ -7,23 +7,24 @@ from threading import Thread
 import json
 
 
-class AlarmCollector:
+class AlarmCollector(object):
     __instance = None
 
-    def __init__(self):
+    def __new__(cls):
         if not AlarmCollector.__instance:
-            self.__initialise()
-        else:
-            print("Instance already created:", self.__get_instance())
+            cls.__instance = cls.__get_instance()
+        return cls.__instance
+
+    def __init__(self):
+        self.__initialise()
 
     @classmethod
     def __get_instance(cls):
         if not cls.__instance:
-            cls.__instance = AlarmCollector()
+            cls.__instance = super(AlarmCollector, cls).__new__(cls)
         return cls.__instance
 
     def __initialise(self):
-        print('init collecto')
         self.__nodes = dict()
         self.db = AlarmDatabase()
         Thread(target=self.start, daemon=True).start()

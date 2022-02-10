@@ -38,7 +38,7 @@ class EricssonTelnet:
             self.__is_alive = False
             return False
         self.__auth()
-        time.sleep(1)
+        #time.sleep(1)
         self.__is_alive = True
         self.__listen_mode()
         print("\nСоединение с " + self.__ip + ' установлено')
@@ -70,6 +70,10 @@ class EricssonTelnet:
         self.__alarms.clear()
         return result
 
+    def __try_to_reconnect(self):
+        while not self.__connect():
+            time.sleep(30)
+
     def __listen(self):
         try:
             self.__retries_counter += 1
@@ -79,8 +83,7 @@ class EricssonTelnet:
                 self.__heartbeat()
             self.__parse(channel_output)
         except (ConnectionError, OSError, ConnectionResetError):
-            while not self.__connect():
-                time.sleep(30)
+            self.__try_to_reconnect()
 
     def __listen_mode(self):
         self.__telnet.write(b'\x04')
@@ -91,13 +94,17 @@ class EricssonTelnet:
             self.__telnet.write(b'\r\n')
             time.sleep(0.2)
             check_state = self.__telnet.read_very_eager().decode('ascii').lower()
-            if 'timeout' in check_state or 'login' in check_state:
+            if 'timeout' in check_state:
+                self.__telnet.write(b'\r\n')
+                if 'WO' not in check_state:
+                    self.__auth()
+                self.__listen_mode()
+            if 'login' in check_state:
                 self.__connect()
                 self.__telnet.write(b'\r\n')
-        except ConnectionError:
+        except (ConnectionError, OSError, ConnectionResetError):
             print(f'Переподключение к хосту {self.__ip}')
-            self.__connect()
-            self.__telnet.write(b'\r\n')
+            self.__try_to_reconnect()
 
     def get(self, message) -> str:
         while self.__is_busy:
@@ -131,20 +138,23 @@ class EricssonTelnet:
         return False
 
     def __auth(self):
-        time.sleep(1)
-        for i in range(6):
-            time.sleep(1)
+        for i in range(50):
+            time.sleep(0.1)
             answer = self.__telnet.read_very_eager()
             if b'login' in answer:
                 self.__telnet.write(self.__login.encode('ascii') + b'\r\n')
             elif b'assword' in answer:
                 self.__telnet.write(self.__password.encode('ascii') + b'\r\n')
             elif b'terminal' in answer:
+                if b'Will assume' in answer:
+                    break
                 self.__telnet.write(b'xterm\r\n')
             elif b'Domain' in answer:
                 self.__telnet.write(b'\r\n')
                 time.sleep(1)
-            elif b'WO' in answer or b'Login ok' in answer:
+            elif b'WO' in answer:
+                return
+            elif b'Login ok' in answer:
                 break
 
         self.__telnet.write(b'\r\n')
