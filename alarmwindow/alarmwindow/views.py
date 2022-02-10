@@ -3,11 +3,12 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 from .models import Alarms, Nodes
-#from .Telnet import *
+from .Telnet import *
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 def get_controller_and_id(request):
     request_data = request.GET.dict()
@@ -20,7 +21,6 @@ def get_alarm_text(request):
     controller_name, alarm_id = get_controller_and_id(request)
     controller_id = Nodes.objects.filter(name=controller_name).first().id
     alarm_text = Alarms.objects.filter(node_id=controller_id, id=alarm_id).first().text
-
     response = {
         'text': alarm_text
     }

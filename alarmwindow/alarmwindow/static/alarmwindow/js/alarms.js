@@ -16,10 +16,15 @@ function get_alarm_text(alarm_id, controller_name) {
             controller: controller_name
         },
         success: function (response) {
-            alert(response['text'])
+
+            var text = response['text'].toString().replaceAll('\n', '<br>');
+            var row_count = text.split('<br>').length;
+            var new_height =  25 * row_count + 'px';
+            $('#alarm_text').html('<b>' + text + '</b>');
+            $('.alarm_footer').css('height', new_height);
         },
         error: function (response) {
-            alert("Error");
+            $('#alarm_text').html('Error');
             console.log(response)
         }
     })

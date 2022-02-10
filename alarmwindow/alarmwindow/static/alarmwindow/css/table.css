@@ -70,10 +70,10 @@ tr:hover {
 }
 
 .alarm_footer{
-    background-color:#0b1629;
+    background-color: #0a0c33;
     position: sticky;
     overflow: visible;
-    height: 80px;
+    height: 160px;
     bottom: 0;
     left: 0;
     color: white;
