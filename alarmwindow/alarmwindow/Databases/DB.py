@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, insert, update, delete, select, exc
-from sqlalchemy import MetaData, Table, String, Integer, Column, Boolean
+from sqlalchemy import MetaData, Table, String, Integer, Column, Boolean, DateTime
 from ..Telnet.Alarm import Alarm
 
 
@@ -20,8 +20,8 @@ class AlarmDatabase:
         self.alarms = Table('alarmwindow_alarms', metadata,
                             Column('id', Integer(), nullable=False),
                             Column('type', String(7), nullable=False),
-                            Column('raising_time', String(15), nullable=False),
-                            Column('ceasing_time', String(15), nullable=True),
+                            Column('raising_time', DateTime, nullable=False),
+                            Column('ceasing_time', DateTime, nullable=True),
                             Column('managed_object', String(30)),
                             Column('object_name', String(30)),
                             Column('slogan', String(30)),

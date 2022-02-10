@@ -19,8 +19,6 @@ class Alarm:
     def __parse_header(self, header_parts) -> None:
         type_identity = re.findall(r'[A|O][1-3]\/?\w{3}', header_parts[0])
         self.type = type_identity[0]
-        if len(type_identity) == 0:
-            print('notype:', header_parts[0])
         info_line = [x for x in header_parts[0].split(' ') if x != '']
         self.__parse_id(header_parts[0], info_line)
 
@@ -38,6 +36,7 @@ class Alarm:
             'id': self.id,
             'type': self.type,
             'raising_time': self.raising_time,
+            'ceasing_time': self.ceasing_time,
             'managed_object': self.managed_object,
             'object_name': self.object_name,
             'slogan': self.slogan,
@@ -103,8 +102,8 @@ class Alarm:
 
     def __init__(self, alarm_text: str, node_id: int):
         self.type = ''
-        self.raising_time = ''
-        self.ceasing_time = ''
+        self.raising_time = None
+        self.ceasing_time = None
         self.managed_object = ''
         self.object_name = ''
         self.slogan = ''

@@ -12,9 +12,6 @@ table {
 tr:nth-child(2n) {
 	background-color:#061021;
 }
-td:nth-child(2n) {
-
-}
 
 tr:hover {
     background-color:#80afff;
@@ -48,4 +45,16 @@ tr:hover {
 
 .coloredrow{
     color: black;
+}
+.table-sort>thead{
+    background-color:#0b1629;
+    width: 100%;
+    position: sticky;
+    top: 0%;
+}
+
+.alarm_header{
+    width: 100%;
+    position: sticky;
+    top: 0;
 }
