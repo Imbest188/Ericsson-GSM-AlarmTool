@@ -32,7 +32,7 @@ class EricssonTelnet:
         print(f'Подключение к {self.__ip}')
         try:
             self.__telnet = telnetlib.Telnet(self.__ip)
-        except ConnectionError:
+        except (ConnectionError, OSError, ConnectionResetError):
             self.__telnet = None
             print("Не удалось подключиться к " + self.__ip)
             self.__is_alive = False
@@ -78,8 +78,9 @@ class EricssonTelnet:
                 self.__retries_counter = 0
                 self.__heartbeat()
             self.__parse(channel_output)
-        except ConnectionError:
-            self.__connect()
+        except (ConnectionError, OSError, ConnectionResetError):
+            while not self.__connect():
+                time.sleep(30)
 
     def __listen_mode(self):
         self.__telnet.write(b'\x04')

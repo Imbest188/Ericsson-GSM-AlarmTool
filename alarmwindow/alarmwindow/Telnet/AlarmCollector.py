@@ -8,9 +8,25 @@ import json
 
 
 class AlarmCollector:
+    __instance = None
+
     def __init__(self):
+        if not AlarmCollector.__instance:
+            self.__initialise()
+        else:
+            print("Instance already created:", self.__get_instance())
+
+    @classmethod
+    def __get_instance(cls):
+        if not cls.__instance:
+            cls.__instance = AlarmCollector()
+        return cls.__instance
+
+    def __initialise(self):
+        print('init collecto')
         self.__nodes = dict()
         self.db = AlarmDatabase()
+        Thread(target=self.start, daemon=True).start()
 
     def start(self):
         self.__init_connections()

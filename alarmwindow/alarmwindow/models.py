@@ -4,8 +4,8 @@ from django.db import models
 class Alarms(models.Model):
     id = models.IntegerField(primary_key=True)
     type = models.CharField(max_length=7)
-    raising_time = models.DateTimeField()#CharField(max_length=15)
-    ceasing_time = models.DateTimeField()#CharField(max_length=15)
+    raising_time = models.DateTimeField()
+    ceasing_time = models.DateTimeField()
     managed_object = models.CharField(max_length=30)
     object_name = models.CharField(max_length=30)
     slogan = models.CharField(max_length=30)
