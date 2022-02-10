@@ -69,3 +69,17 @@ tr:hover {
     z-index: 5;
 }
 
+.alarm_footer{
+    background-color:#0b1629;
+    position: sticky;
+    overflow: visible;
+    height: 80px;
+    bottom: 0;
+    left: 0;
+    color: white;
+}
+
+.btn.btn-primary:active{
+    color: #f58c5f;
+}
+
