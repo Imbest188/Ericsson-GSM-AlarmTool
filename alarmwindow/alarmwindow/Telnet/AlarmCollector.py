@@ -11,9 +11,10 @@ class AlarmCollector:
     def __init__(self):
         self.__nodes = dict()
         self.db = AlarmDatabase()
+
+    def start(self):
         self.__init_connections()
         self.__start_listening()
-        self.__busy = False
 
     def get_nodes(self) -> list:
         return list(self.__nodes.keys())
