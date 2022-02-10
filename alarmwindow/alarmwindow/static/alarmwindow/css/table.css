@@ -50,11 +50,22 @@ tr:hover {
     background-color:#0b1629;
     width: 100%;
     position: sticky;
-    top: 0%;
+    top: 60px;
 }
 
-.alarm_header{
+.table-sort>tbody{
+    background-color:#0b1629;
     width: 100%;
-    position: sticky;
-    top: 0;
+
 }
+
+
+.alarm_header{
+    background-color:#0b1629;
+    position: sticky;
+    overflow: visible;
+    height: 60px;
+    top: 0px;
+    z-index: 5;
+}
+

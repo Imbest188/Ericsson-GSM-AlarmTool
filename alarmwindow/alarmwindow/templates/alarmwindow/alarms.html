@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="{% static 'alarmwindow/css/table.css' %}">
     <script src="{% static 'alarmwindow/js/table-sort.js' %}"></script>
 
+    <form class="alarm_header">
+        <div class="col text-center">
+            <input type="button" class="btn btn-primary" value="BSC03" onclick="updateAlarms(1)"/>
+            <input type="button" class="btn btn-primary" value="BSC04" onclick="updateAlarms(2)"/>
+            <input type="button" class="btn btn-primary" value="BSC05" onclick="updateAlarms(3)"/>
+        </div>
+    </form>
+
     <script>
         function timeToString(dt) {
             if(dt == null)
@@ -79,13 +87,7 @@
 
 </head>
 <body>
-<form class="alarm_header">
-    <div class="col text-center">
-        <input type="button" class="btn btn-primary" value="BSC03" onclick="updateAlarms(1)"/>
-        <input type="button" class="btn btn-primary" value="BSC04" onclick="updateAlarms(2)"/>
-        <input type="button" class="btn btn-primary" value="BSC05" onclick="updateAlarms(3)"/>
-    </div>
-</form>
+
 <div>
     <table class="table-sort" id="alarm_table">
         <thead>
