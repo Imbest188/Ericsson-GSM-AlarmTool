@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 from .models import Alarms, Nodes
-from .Telnet import *
+#from .Telnet import *
 
 
 def is_ajax(request):
@@ -23,6 +23,16 @@ def get_alarm_text(request):
     alarm_text = Alarms.objects.filter(node_id=controller_id, id=alarm_id).first().text
     response = {
         'text': alarm_text
+    }
+    return JsonResponse(response)
+
+
+def get_controller_list(request):
+    controllers = Nodes.objects.values()
+    names = [x['name'] for x in controllers]
+    print(names)
+    response = {
+        'controllers': names
     }
     return JsonResponse(response)
 

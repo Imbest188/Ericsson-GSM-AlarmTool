@@ -13,15 +13,18 @@
     <script>
         const alarm_template = "{% url 'alarms' %}";
         const alarm_text_request = "{% url 'get_alarm_text' %}";
+        const controller_list_request = "{% url 'controller_list' %}";
     </script>
     <script src="{% static 'alarmwindow/js/alarms.js' %}"></script>
+    <script src="{% static 'alarmwindow/js/controllers.js' %}"></script>
 
     <form class="alarm_header" method="GET">
-        <div class="col align-content-xxl-stretch">
+        <div id="controller_row" class="col align-content-xxl-stretch">
             <button class="controller-button" role="button" onclick="updateAlarms($(this).text()); return false;">BSC03</button>
             <button class="controller-button" role="button" onclick="updateAlarms($(this).text()); return false;">BSC04</button>
             <button class="controller-button" role="button" onclick="updateAlarms($(this).text()); return false;">BSC05</button>
         </div>
+        <button class="controller-button" role="button" onclick="get_controller_list(); return false;">refresh</button>
     </form>
 </head>
 <body>
