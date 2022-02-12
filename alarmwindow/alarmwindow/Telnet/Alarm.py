@@ -97,7 +97,10 @@ class Alarm:
             if 'DIGITAL PATH QUALITY SUPERVISION' in alarm_data:
                 self.slogan = lines_repr[2].strip()
                 lines_repr.remove(lines_repr[2])
-            content_info = self.__get_values(lines_repr[2], lines_repr[3])
+            try:
+                content_info = self.__get_values(lines_repr[2], lines_repr[3])
+            except:
+                print(lines_repr)
             self.__set_values(content_info)
 
     def __init__(self, alarm_text: str, node_id: int):

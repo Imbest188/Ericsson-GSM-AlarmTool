@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 from .models import Alarms, Nodes
-#from .Telnet import *
+from .Telnet import *
 
 
 def is_ajax(request):
@@ -12,7 +12,7 @@ def is_ajax(request):
 
 def get_controller_and_id(request):
     request_data = request.GET.dict()
-    controller = request_data['controller'] if 'controller' in request_data.keys() else 'BSC03'
+    controller = request_data['controller']
     alarm_id = request_data['alarm_id']
     return controller, alarm_id
 

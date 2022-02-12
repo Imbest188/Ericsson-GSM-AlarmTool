@@ -64,7 +64,7 @@ tr:hover {
     background-color:#0b1629;
     position: sticky;
     overflow: visible;
-    height: 60px;
+    height: 120px;
     top: 0px;
     z-index: 5;
 }
@@ -99,3 +99,9 @@ tr:hover {
     color: #f58c5f;
 }
 
+#controller_name {
+    color: white;
+    font-size: xx-large;
+    margin-left: 1%;
+    font-weight: bolder;
+}

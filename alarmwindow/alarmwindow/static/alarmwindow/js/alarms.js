@@ -36,10 +36,11 @@ function get_alarm_text(alarm_id, controller_name) {
 
 }
 
-var current_controller = "BSC03";
-
 function updateAlarms(node_name) {
-    current_controller = node_name;
+    if (node_name != undefined) {
+        current_controller = node_name;
+        document.getElementById("controller_name").innerText = node_name;
+    }
     $('.alarm_footer').css('height', 0);
     $('html').animate({
         scrollTop: 0
@@ -59,7 +60,6 @@ function updateAlarms(node_name) {
                             <td class="coloredrow">${item["type"]}</td>
                             <td class="id">${item["id"]}</td>
                             <td>${timeToString(item["raising_time"])}</td>
-                            <td>${timeToString(item["ceasing_time"])}</td>
                             <td>${item["managed_object"]}</td>
                             <td>${item["object_name"]}</td>
                             <td>${item["slogan"]}</td>
@@ -93,4 +93,3 @@ function updateAlarms(node_name) {
     });
     return false;
 };
-$(document).ready(updateAlarms());
