@@ -9,6 +9,7 @@ function init_controllers(controllers) {
                 onClick="updateAlarms($(this).text()); return false;">${item}</button>`)
 
     });
+    $("#controller_row").prepend(`<label id="controller_name"></label>`);
 }
 
 function get_controller_list() {

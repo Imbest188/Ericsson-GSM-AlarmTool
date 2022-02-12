@@ -1,67 +1,69 @@
 body {
-    background-color:#0e131c;
-    color:white;
+    background-color: #0e131c;
+    color: white;
 }
 
 table {
-	width:100%;
-	background-color:#0b1629;
-	color:white;
-	font-weight:bold;
+    width: 100%;
+    background-color: #0b1629;
+    color: white;
+    font-weight: bold;
 }
+
 tr:nth-child(2n) {
-	background-color:#061021;
+    background-color: #061021;
 }
 
 tr:hover {
-    background-color:#80afff;
-    color:black;
-}
-
-.red{
-    background-color:#ff7c73;
-    color:black;
-}
-
-.orange{
-    background-color:#f58c5f;
-    color:black;
-}
-
-.yellow{
-    background-color:#fcd18b;
-    color:black;
-}
-
-.lightblue{
-    background-color:#79a9fc;
-    color:black;
-}
-
-.blue{
-    background-color:#8be8fc;
-    color:black;
-}
-
-.coloredrow{
+    background-color: #80afff;
     color: black;
 }
-.table-sort>thead{
-    background-color:#0b1629;
+
+.red {
+    background-color: #ff7c73;
+    color: black;
+}
+
+.orange {
+    background-color: #f58c5f;
+    color: black;
+}
+
+.yellow {
+    background-color: #fcd18b;
+    color: black;
+}
+
+.lightblue {
+    background-color: #79a9fc;
+    color: black;
+}
+
+.blue {
+    background-color: #8be8fc;
+    color: black;
+}
+
+.coloredrow {
+    color: black;
+}
+
+.table-sort > thead {
+    background-color: #0b1629;
     width: 100%;
     position: sticky;
     top: 60px;
 }
 
-.table-sort>tbody{
-    background-color:#0b1629;
+.table-sort > tbody {
+    background-color: #0b1629;
     width: 100%;
 
 }
 
 
-.alarm_header{
-    background-color:#0b1629;
+.alarm_header {
+    background-color: #0b1629;
     position: sticky;
     overflow: visible;
     height: 120px;
@@ -69,7 +71,7 @@ tr:hover {
     z-index: 5;
 }
 
-.alarm_footer{
+.alarm_footer {
     background-color: #0a0c43;
     border: solid #79a9fc;
     border-top-width: 2px;
@@ -83,11 +85,11 @@ tr:hover {
     width: 40%;
 }
 
-#alarm_text{
+#alarm_text {
     margin-left: 5%;
 }
 
-#close_footer{
+#close_footer {
     position: absolute;
     background-color: white;
     overflow: visible;
@@ -95,13 +97,13 @@ tr:hover {
     right: 1%;
 }
 
-.btn.btn-primary:active{
+.btn.btn-primary:active {
     color: #f58c5f;
 }
 
 #controller_name {
     color: white;
-    font-size: xx-large;
+    font-size: xxx-large;
     margin-left: 1%;
     font-weight: bolder;
 }
