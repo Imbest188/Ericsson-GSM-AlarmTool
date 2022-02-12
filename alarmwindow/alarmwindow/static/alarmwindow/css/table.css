@@ -52,7 +52,7 @@ tr:hover {
     background-color: #0b1629;
     width: 100%;
     position: sticky;
-    top: 60px;
+    top: 90px;
 }
 
 .table-sort > tbody {
@@ -66,7 +66,7 @@ tr:hover {
     background-color: #0b1629;
     position: sticky;
     overflow: visible;
-    height: 120px;
+    height: 90px;
     top: 0px;
     z-index: 5;
 }
@@ -102,7 +102,7 @@ tr:hover {
 }
 
 #controller_name {
-    color: white;
+    color: lightblue;
     font-size: xxx-large;
     margin-left: 1%;
     font-weight: bolder;

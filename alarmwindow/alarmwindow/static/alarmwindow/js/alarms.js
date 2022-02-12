@@ -9,6 +9,8 @@ function timeToString(dt) {
 
 function close_footer(){
     $('.alarm_footer').css('height', '0px');
+    $('#alarm_text').html('');
+    $('#close_footer').hide();
 }
 
 function get_alarm_text(alarm_id, controller_name) {
@@ -24,8 +26,9 @@ function get_alarm_text(alarm_id, controller_name) {
             var text = response['text'].toString().replaceAll('\n', '<br>');
             var row_count = text.split('<br>').length;
             var new_height =  25 * row_count + 'px';
-            $('#alarm_text').html('<b>' + text + '</b>');
+            $('#alarm_text').html(text);
             $('.alarm_footer').css('height', new_height);
+            $('#close_footer').visible();//bad
         },
         error: function (response) {
             $('#alarm_text').html('Error');

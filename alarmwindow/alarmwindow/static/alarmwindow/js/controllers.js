@@ -1,5 +1,8 @@
 function start_alarm_updater(controllers) {
 //background-image: linear-gradient(#541a0f 0, #0c0d0d 100%);
+    setInterval(function () {
+
+    }, 5000);
 }
 
 function init_controllers(controllers) {
