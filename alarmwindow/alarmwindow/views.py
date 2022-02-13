@@ -19,8 +19,10 @@ def get_controller_and_id(request):
 
 def get_alarm_text(request):
     controller_name, alarm_id = get_controller_and_id(request)
-    controller_id = Nodes.objects.filter(name=controller_name).first().id
-    alarm_text = Alarms.objects.filter(node_id=controller_id, id=alarm_id).first().text
+    controller_row = Nodes.objects.filter(name=controller_name).first()
+    if not controller_row:
+        return JsonResponse(status=500)
+    alarm_text = Alarms.objects.filter(node_id=controller_row.id, id=alarm_id).first().text
     response = {
         'text': alarm_text
     }

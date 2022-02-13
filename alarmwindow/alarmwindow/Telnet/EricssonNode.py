@@ -20,13 +20,17 @@ class EricssonNode(EricssonTelnet):
             alarms += self.parse_node_output(alarm_text)
         return self.__pack([alarm for alarm in alarms if alarm.is_valid])
 
+    def __replace_tokens(self, data):
+        head = 'allip;\nALARM LIST\n\n'
+        return data.replace('\r', '') \
+            .replace(head, '') \
+            .replace('ALARM SLOGAN', 'ALARM_SLOGAN')\
+            .replace('FAULT TYPE', 'FAULT_TYPE')
+
     def parse_node_output(self, output_data) -> list:
         alarms = []
-        head = 'allip;\nALARM LIST\n\n'
-        for block in output_data \
-                .replace('\r', '') \
-                .replace(head, '') \
-                .replace('ALARM SLOGAN', 'ALARM_SLOGAN') \
+
+        for block in  self.__replace_tokens(output_data)\
                 .split('\n\n\n'):
             if re.findall(r'[A|O][1-3]', block):
                 alarms.append(Alarm(block.strip(), self.id))

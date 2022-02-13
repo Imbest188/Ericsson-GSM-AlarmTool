@@ -70,6 +70,10 @@ class Alarm:
             self.object_name = content_info['RSITE']
         elif 'TG' in keys:
             self.object_name = content_info['TG']
+        elif 'SAID' in keys:
+            self.object_name = content_info['SAID']
+        elif 'SPID' in keys:
+            self.object_name = content_info['SPID']
 
         if 'MO' in keys:
             self.managed_object = content_info['MO']
@@ -81,11 +85,25 @@ class Alarm:
         elif 'SDIP' in keys:
             self.object_name = content_info['SDIP']
             self.managed_object = content_info['LAYER']
+        elif 'DEST' in keys:
+            self.managed_object = content_info['DEST']
+        elif 'UNIT' in keys:
+            self.managed_object = content_info['UNIT']
+        elif 'FILENAME' in keys:
+            self.managed_object = content_info['FILENAME']
+        elif 'SNT' in keys:
+            self.managed_object = content_info['SNT']
 
         if 'ALARM_SLOGAN' in keys:
             self.slogan = content_info['ALARM_SLOGAN']
         elif 'FAULT' in keys:
             self.slogan = content_info['FAULT']
+        elif 'FAULT_TYPE' in keys:
+            self.slogan = content_info['FAULT_TYPE']
+        elif 'REASON' in keys:
+            self.slogan = content_info['REASON']
+        elif 'STATE' in keys:
+            self.slogan = content_info['STATE']
 
     def __parse_content(self, alarm_data) -> None:
         alarm_data = alarm_data.replace('RADIO X-CEIVER ADMINISTRATION', '')
@@ -101,8 +119,8 @@ class Alarm:
         self.text = '\n'.join(lines_repr)
         if len(lines_repr) > 3:
             if 'DIGITAL PATH QUALITY SUPERVISION' in alarm_data:
-                self.slogan = 'DIGITAL PATH QUALITY SUPERVISION'
-                lines_repr.remove(self.slogan)
+                self.slogan = lines_repr[2]
+                lines_repr.remove(lines_repr[2])
             if len(lines_repr) == 3:
                 content_info = self.__get_values(lines_repr[1], lines_repr[2])
             else:
@@ -111,7 +129,6 @@ class Alarm:
         self.is_valid = True
 
     def __init__(self, alarm_text: str, node_id: int):
-        print(alarm_text)
         self.type = ''
         self.raising_time = None
         self.ceasing_time = None
