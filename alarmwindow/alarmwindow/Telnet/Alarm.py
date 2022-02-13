@@ -16,8 +16,10 @@ class Alarm:
         except ValueError:
             self.id = -1
 
-    def __parse_header(self, header_parts) -> None:
+    def __parse_header(self, header_parts) -> bool:
         type_identity = re.findall(r'[A|O][1-3]\/?\w{3}', header_parts[0])
+        if not len(type_identity):
+            return False
         self.type = type_identity[0]
         info_line = [x for x in header_parts[0].split(' ') if x != '']
         self.__parse_id(header_parts[0], info_line)
@@ -30,6 +32,7 @@ class Alarm:
         else:
             self.ceasing_time = dt.strptime(f'{date_line} {time_line}', "%y%m%d %H%M%S")
         self.descr = header_parts[-1]
+        return len(self.type) > 0
 
     def __dict__(self):
         return {
@@ -90,20 +93,25 @@ class Alarm:
             self.is_active = False
         lines_repr = [x for x in alarm_data.split('\n') if x != ''
                       and not x.startswith('WO')
-                      and not x.startswith('EX')]
-        self.__parse_header(lines_repr[0:2])
+                      and not x.startswith('EX')
+                      and x != '\x03<']
+        if not len(lines_repr) or not self.__parse_header(lines_repr[0:2]):
+            return
+
         self.text = '\n'.join(lines_repr)
         if len(lines_repr) > 3:
             if 'DIGITAL PATH QUALITY SUPERVISION' in alarm_data:
-                self.slogan = lines_repr[2].strip()
-                lines_repr.remove(lines_repr[2])
-            try:
+                self.slogan = 'DIGITAL PATH QUALITY SUPERVISION'
+                lines_repr.remove(self.slogan)
+            if len(lines_repr) == 3:
+                content_info = self.__get_values(lines_repr[1], lines_repr[2])
+            else:
                 content_info = self.__get_values(lines_repr[2], lines_repr[3])
-            except:
-                print(lines_repr)
             self.__set_values(content_info)
+        self.is_valid = True
 
     def __init__(self, alarm_text: str, node_id: int):
+        print(alarm_text)
         self.type = ''
         self.raising_time = None
         self.ceasing_time = None
@@ -116,6 +124,7 @@ class Alarm:
         self.is_active = True
         self.__parse_content(alarm_text)
         self.node_id = node_id
+        self.is_valid = False
 
     def __str__(self):
         return f'type:{self.type} dt:{self.raising_time} mo:{self.managed_object} name:{self.object_name}' \

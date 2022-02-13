@@ -6,7 +6,7 @@
     background-image: none;
     border-style: none;
     box-sizing: border-box;
-    color: #fff;
+    color: #79a9fc;
     cursor: pointer;
     display: inline-block;
     flex-direction: row;
@@ -44,10 +44,11 @@
 .controller-button:before,
 .controller-button:after {
     border-radius: 80px;
+    color: white;
 }
 
 .controller-button:before {
-    background-image: linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
+    background-image: linear-gradient(92.83deg, lightskyblue 0, lightseagreen 100%);
     content: "";
     display: block;
     height: 100%;
@@ -61,7 +62,7 @@
 
 .controller-button:after {
     background-color: initial;
-    background-image: linear-gradient(#541a0f 0, #0c0d0d 100%);
+    background-image: linear-gradient(darkblue 0, #0a0c43 100%);
     bottom: 4px;
     content: "";
     display: block;
@@ -75,7 +76,7 @@
 }
 
 .controller-button:hover:not(:disabled):before {
-    background: linear-gradient(92.83deg, rgb(255, 116, 38) 0%, rgb(249, 58, 19) 100%);
+    background: linear-gradient(92.83deg, blue 0%, darkblue 100%);
 }
 
 .controller-button:hover:not(:disabled):after {
@@ -88,15 +89,15 @@
 }
 
 .controller-button:active:not(:disabled) {
-    color: #ccc;
+    color: white;
 }
 
 .controller-button:active:not(:disabled):before {
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, lightseagreen 0, lightskyblue 100%);
 }
 
 .controller-button:active:not(:disabled):after {
-    background-image: linear-gradient(#541a0f 0, #0c0d0d 100%);
+    background-image: linear-gradient(darkblue 0, black 100%);
     bottom: 4px;
     left: 4px;
     right: 4px;

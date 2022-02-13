@@ -18,7 +18,7 @@ class EricssonNode(EricssonTelnet):
         alarms = []
         for alarm_text in self.get_alarms():
             alarms += self.parse_node_output(alarm_text)
-        return self.__pack(alarms)
+        return self.__pack([alarm for alarm in alarms if alarm.is_valid])
 
     def parse_node_output(self, output_data) -> list:
         alarms = []
@@ -56,7 +56,7 @@ class EricssonBsc(EricssonNode):
         self.__init_tg()
         self.__init_rbl()
 
-    def getRblOwner(self, rbl_text):
+    def get_rbl_owner(self, rbl_text):
         rbl = int(rbl_text.split('R')[0])
         for bs in self.bs_list:
             if rbl in bs.rbl:
@@ -67,7 +67,7 @@ class EricssonBsc(EricssonNode):
         result = super().parse_node_output(output_data)
         for alarm in result:
             if 'RBL' in alarm.managed_object:
-                alarm.object_name = self.getRblOwner(alarm.managed_object)
+                alarm.object_name = self.get_rbl_owner(alarm.managed_object)
         return result
 
     def __init_tg(self):

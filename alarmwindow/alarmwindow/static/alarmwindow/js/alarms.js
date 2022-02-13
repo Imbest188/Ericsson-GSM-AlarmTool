@@ -7,10 +7,9 @@ function timeToString(dt) {
         .replace("Z", " ");
 }
 
-function close_footer(){
-    $('.alarm_footer').css('height', '0px');
+function close_footer() {
     $('#alarm_text').html('');
-    $('#close_footer').hide();
+    $('.alarm_footer').hide();
 }
 
 function get_alarm_text(alarm_id, controller_name) {
@@ -25,10 +24,9 @@ function get_alarm_text(alarm_id, controller_name) {
 
             var text = response['text'].toString().replaceAll('\n', '<br>');
             var row_count = text.split('<br>').length;
-            var new_height =  25 * row_count + 'px';
+            var new_height = 30 * row_count + 'px';
             $('#alarm_text').html(text);
-            $('.alarm_footer').css('height', new_height);
-            $('#close_footer').visible();//bad
+            $('.alarm_footer').css('height', new_height).show();
         },
         error: function (response) {
             $('#alarm_text').html('Error');
@@ -40,14 +38,14 @@ function get_alarm_text(alarm_id, controller_name) {
 }
 
 function updateAlarms(node_name) {
-    if (node_name != undefined) {
+    if (node_name) {
         current_controller = node_name;
         document.getElementById("controller_name").innerText = node_name;
     }
-    $('.alarm_footer').css('height', 0);
+    $('.alarm_footer').hide();
     $('html').animate({
-        scrollTop: 0
-      }, 30
+            scrollTop: 0
+        }, 30
     );
     $.ajax({
         type: $(this).attr('GET'),
@@ -82,11 +80,11 @@ function updateAlarms(node_name) {
 
             $("tr.clickablerow").each(function (index) {
                 var row = $(this).closest("tr");
-                    row[0].addEventListener("click", function() {
-                        var id = row.find(".id").text();
-                        get_alarm_text(id, current_controller);
-                    });
+                row[0].addEventListener("click", function () {
+                    var id = row.find(".id").text();
+                    get_alarm_text(id, current_controller);
                 });
+            });
 
         },
         error: function (response) {

@@ -61,7 +61,6 @@ class AlarmCollector(object):
         return new_dict
 
     def add_node(self, host, login, password, name, node_type, override=True):
-        print(f'add node {host}')
         node = EricssonBsc(host, login, password) if node_type == 'bsc' \
             else EricssonNode(host, login, password)
         if node.is_alive():

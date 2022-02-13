@@ -92,16 +92,19 @@ class EricssonTelnet:
     def __check_connection(self):
         try:
             self.__telnet.write(b'\r\n')
-            time.sleep(0.2)
-            check_state = self.__telnet.read_very_eager().decode('ascii').lower()
-            if 'timeout' in check_state:
-                self.__telnet.write(b'\r\n')
-                if 'WO' not in check_state:
-                    self.__auth()
-                self.__listen_mode()
-            if 'login' in check_state:
-                self.__connect()
-                self.__telnet.write(b'\r\n')
+            for i in range(10):
+                time.sleep(0.1)
+                check_state = self.__telnet.read_very_eager().decode('ascii').lower()
+                if 'timeout' in check_state:
+                    self.__telnet.write(b'\r\n')
+                    if 'WO' not in check_state:
+                        self.__auth()
+                    self.__listen_mode()
+                if 'login' in check_state:
+                    self.__connect()
+                    self.__telnet.write(b'\r\n')
+                if 'WO' in check_state:
+                    break
         except (ConnectionError, OSError, ConnectionResetError):
             print(f'Переподключение к хосту {self.__ip}')
             self.__try_to_reconnect()
@@ -156,6 +159,9 @@ class EricssonTelnet:
                 return
             elif b'Login ok' in answer:
                 break
+            elif b'Logon failure' in answer:
+                self.__is_alive = False
+                return
 
         self.__telnet.write(b'\r\n')
         self.__telnet.write(b'mml -a\r\n')

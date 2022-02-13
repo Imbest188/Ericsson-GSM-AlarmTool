@@ -14,7 +14,7 @@ tr:nth-child(2n) {
     background-color: #061021;
 }
 
-tr:hover {
+.table-sort > tbody >tr:hover {
     background-color: #80afff;
     color: black;
 }
@@ -46,6 +46,8 @@ tr:hover {
 
 .coloredrow {
     color: black;
+    width: 62px;
+    max-width: 62px;
 }
 
 .table-sort > thead {
@@ -61,7 +63,6 @@ tr:hover {
 
 }
 
-
 .alarm_header {
     background-color: #0b1629;
     position: sticky;
@@ -69,6 +70,10 @@ tr:hover {
     height: 90px;
     top: 0px;
     z-index: 5;
+}
+
+th:hover {
+    color: lightseagreen;
 }
 
 .alarm_footer {
@@ -97,13 +102,13 @@ tr:hover {
     right: 1%;
 }
 
-.btn.btn-primary:active {
-    color: #f58c5f;
-}
-
 #controller_name {
     color: lightblue;
     font-size: xxx-large;
     margin-left: 1%;
     font-weight: bolder;
+}
+
+.alarm_footer {
+    display: none;
 }
