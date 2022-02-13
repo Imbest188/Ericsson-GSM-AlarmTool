@@ -51,6 +51,7 @@ class AlarmCollector(object):
             for name in self.__nodes.keys():
                 new_alarms = self.__nodes[name].get_new_alarms()
                 if len(new_alarms['alarms']):
+                    print('add alarms ', new_alarms['node_id'])
                     self.__push_alarms(new_alarms)
 
     def __init_alarm_dict(self) -> dict:

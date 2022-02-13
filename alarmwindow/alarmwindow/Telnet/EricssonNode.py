@@ -4,12 +4,16 @@ from .Alarm import Alarm
 from .EricssonTelnet import EricssonTelnet
 
 
+ALARM_TYPE_REGEXP = r"[A|O][1-3]\/?\w{3}"
+
+
 class EricssonNode(EricssonTelnet):
     def __init__(self, ip, login, password):
         super().__init__(ip, login, password)
         self.id = -1
 
     def __pack(self, alarms) -> dict:
+        print(f'packed {len(alarms)}')
         return {'alarms': alarms, 'node_id': self.id}
 
     def read_alarms(self) -> dict:
@@ -21,7 +25,8 @@ class EricssonNode(EricssonTelnet):
             alarms += self.parse_node_output(alarm_text)
         return self.__pack([alarm for alarm in alarms if alarm.is_valid])
 
-    def __replace_tokens(self, data):
+    @staticmethod
+    def __replace_tokens(data):
         head = 'allip;\nALARM LIST\n\n'
         return data.replace('\r', '') \
             .replace(head, '') \
@@ -31,10 +36,11 @@ class EricssonNode(EricssonTelnet):
     def parse_node_output(self, output_data) -> list:
         alarms = []
 
-        for block in self.__replace_tokens(output_data) \
-                .split('\n\n\n'):
-            if re.findall(r'[A|O][1-3]', block):
+        for block in self.__replace_tokens(output_data).split('\n\n\n'):
+            if re.findall(ALARM_TYPE_REGEXP, block):
                 alarms.append(Alarm(block.strip(), self.id))
+                print('find alarm')
+        print(f'returned {len(alarms)} alarms')
         return alarms
 
 

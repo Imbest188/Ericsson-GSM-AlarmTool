@@ -25,8 +25,11 @@ function get_alarm_text(alarm_id, controller_name) {
             var text = response['text'].toString().replaceAll('\n', '<br>');
             var row_count = text.split('<br>').length;
             var new_height = 30 * row_count + 'px';
+            var new_margin = 100 - (4.5 * row_count);
+            alert(new_margin);
             $('#alarm_text').html(text);
-            $('.alarm_footer').css('height', new_height).show();
+            $('.alarm_footer').css('height', new_height)
+                .css('top', new_margin + '%').show();
         },
         error: function (response) {
             $('#alarm_text').html('Error');

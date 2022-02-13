@@ -80,11 +80,10 @@ th:hover {
     background-color: #0a0c43;
     border: solid #79a9fc;
     border-top-width: 2px;
-    position: sticky;
+    position: fixed;
     overflow: auto;
     height: 0;
     transform: translate(+60%, 0%);
-    bottom: 0;
     z-index: 11;
     color: white;
     width: 40%;
