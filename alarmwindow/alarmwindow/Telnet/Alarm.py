@@ -12,7 +12,7 @@ class Alarm:
     def mark_as_ceased(self):
         self.is_active = False
 
-    def __parse_id(self, header_line, header_parts) -> None:
+    def __parse_id(self, header_line: str, header_parts: list) -> None:
         try:
             if header_line.startswith('*'):
                 id_index = 3 if 'CEASING' in header_line else 2
@@ -81,7 +81,7 @@ class Alarm:
                 return container[key]
         return ''
 
-    def __set_values(self, content_info) -> None:
+    def __set_values(self, content_info: dict) -> None:
         self.object_name = self.__get_value_from_keys(content_info, object_name_keys)
         self.managed_object = self.__get_value_from_keys(content_info, managed_object_keys)
         self.slogan = self.__get_value_from_keys(content_info, slogan_keys)
@@ -95,19 +95,22 @@ class Alarm:
             return True
         return False
 
-    def __parse_content(self, alarm_data) -> None:
+    def __prepare_data(self, alarm_data: str):
         alarm_data = alarm_data.replace('RADIO X-CEIVER ADMINISTRATION', '')
         if 'CEASING' in alarm_data:
             self.is_active = False
         lines_repr = [x for x in alarm_data.split('\n') if not self.__is_service_line(x)]
         if not len(lines_repr) or not self.__parse_header(lines_repr[0:2]):
             return
+        if 'DIGITAL PATH QUALITY SUPERVISION' in alarm_data:
+            self.slogan = lines_repr[2]
+            lines_repr.remove(lines_repr[2])
+        return lines_repr
 
+    def __parse_content(self, alarm_data: str) -> None:
+        lines_repr = self.__prepare_data(alarm_data)
         self.text = '\n'.join(lines_repr)
         if len(lines_repr) > 3:
-            if 'DIGITAL PATH QUALITY SUPERVISION' in alarm_data:
-                self.slogan = lines_repr[2]
-                lines_repr.remove(lines_repr[2])
             start_line = 1 if len(lines_repr) == 3 else 2
             content_info = self.__get_values(lines_repr[start_line], lines_repr[start_line + 1])
             self.__set_values(content_info)
