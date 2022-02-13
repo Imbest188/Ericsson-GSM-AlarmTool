@@ -1,10 +1,9 @@
+import json
 import time
+from threading import Thread
 
 from .EricssonNode import EricssonBsc, EricssonNode
 from ..Databases.DB import AlarmDatabase
-from threading import Thread
-
-import json
 
 
 class AlarmCollector(object):

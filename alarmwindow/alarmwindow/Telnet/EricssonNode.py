@@ -1,6 +1,7 @@
-from .EricssonTelnet import EricssonTelnet
-from .Alarm import Alarm
 import re
+
+from .Alarm import Alarm
+from .EricssonTelnet import EricssonTelnet
 
 
 class EricssonNode(EricssonTelnet):
@@ -24,13 +25,13 @@ class EricssonNode(EricssonTelnet):
         head = 'allip;\nALARM LIST\n\n'
         return data.replace('\r', '') \
             .replace(head, '') \
-            .replace('ALARM SLOGAN', 'ALARM_SLOGAN')\
+            .replace('ALARM SLOGAN', 'ALARM_SLOGAN') \
             .replace('FAULT TYPE', 'FAULT_TYPE')
 
     def parse_node_output(self, output_data) -> list:
         alarms = []
 
-        for block in  self.__replace_tokens(output_data)\
+        for block in self.__replace_tokens(output_data) \
                 .split('\n\n\n'):
             if re.findall(r'[A|O][1-3]', block):
                 alarms.append(Alarm(block.strip(), self.id))

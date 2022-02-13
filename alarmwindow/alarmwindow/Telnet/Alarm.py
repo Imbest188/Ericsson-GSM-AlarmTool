@@ -95,13 +95,13 @@ class Alarm:
             return True
         return False
 
-    def __prepare_data(self, alarm_data: str):
+    def __prepare_data(self, alarm_data: str) -> list:
         alarm_data = alarm_data.replace('RADIO X-CEIVER ADMINISTRATION', '')
         if 'CEASING' in alarm_data:
             self.is_active = False
         lines_repr = [x for x in alarm_data.split('\n') if not self.__is_service_line(x)]
         if not len(lines_repr) or not self.__parse_header(lines_repr[0:2]):
-            return
+            return []
         if 'DIGITAL PATH QUALITY SUPERVISION' in alarm_data:
             self.slogan = lines_repr[2]
             lines_repr.remove(lines_repr[2])
@@ -109,6 +109,8 @@ class Alarm:
 
     def __parse_content(self, alarm_data: str) -> None:
         lines_repr = self.__prepare_data(alarm_data)
+        if not len(lines_repr):
+            return
         self.text = '\n'.join(lines_repr)
         if len(lines_repr) > 3:
             start_line = 1 if len(lines_repr) == 3 else 2

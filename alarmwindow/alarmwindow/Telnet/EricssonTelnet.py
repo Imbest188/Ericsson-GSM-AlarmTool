@@ -1,6 +1,6 @@
+import socket
 import telnetlib
 import time
-import socket
 
 
 class EricssonTelnet:
@@ -38,7 +38,6 @@ class EricssonTelnet:
             self.__is_alive = False
             return False
         self.__auth()
-        #time.sleep(1)
         self.__is_alive = True
         self.__listen_mode()
         print("\nСоединение с " + self.__ip + ' установлено')
