@@ -8,5 +8,5 @@ urlpatterns = [
     path('alarms', views.AlarmView.as_view(), name='alarms'),
     path('get_alarm_text', views.get_alarm_text, name='get_alarm_text'),
     path('controller_list', views.get_controller_list, name='controller_list'),
-    path('nodes_update_id', views.get_nodes_update_id, name='nodes_update_id')
+    path('get_updates', views.get_nodes_update_id, name='get_updates')
 ]

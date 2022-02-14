@@ -121,7 +121,6 @@ class Alarm:
         self.is_valid = True
 
     def __init__(self, alarm_text: str, node_id: int):
-        print(f'text: {alarm_text}')
         self.type = ''
         self.raising_time = None
         self.ceasing_time = None

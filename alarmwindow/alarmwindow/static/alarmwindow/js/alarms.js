@@ -1,3 +1,12 @@
+function context_menu() {
+    document.body.addEventListener('contextmenu', function(ev) {
+        ev.preventDefault();
+        refresh_controller_update_id(current_controller);
+        updateAlarms(current_controller);
+        return false;
+    }, false);
+}
+
 function timeToString(dt) {
     if (dt == null)
         return "";
@@ -35,20 +44,21 @@ function get_alarm_text(alarm_id, controller_name) {
             $('.alarm_footer').css('height', '30px');
         }
     })
-
-
 }
 
-function updateAlarms(node_name) {
-    if (node_name) {
-        current_controller = node_name;
-        document.getElementById("controller_name").innerText = node_name;
-    }
+function controllerButtonClicked(node_name) {
+    current_controller = node_name;
+    document.getElementById("controller_name").innerText = node_name;
+    $('#' + node_name).css({'color': '#79a9fc'});
     $('.alarm_footer').hide();
+    updateAlarms(node_name, get_controller_update_id(node_name));
     $('html').animate({
             scrollTop: 0
         }, 30
     );
+}
+
+function updateAlarms(node_name, id= -1) {
     $.ajax({
         type: $(this).attr('GET'),
         url: alarm_template,
@@ -56,13 +66,18 @@ function updateAlarms(node_name) {
         success: function (response) {
             $("#alarm_table tbody").html("");
             $.each(response["alarms"], function (index, item) {
+                var td_class = "default";
+
+                if(id > -1 && item["node_update_id"] >= id) {
+                    td_class = "red-td";
+                }
                 // language=HTML
                 $("#alarm_table tbody").prepend(
                     `
                         <tr class="clickablerow">
                             <td class="coloredrow">${item["type"]}</td>
-                            <td class="id">${item["id"]}</td>
-                            <td>${timeToString(item["raising_time"])}</td>
+                            <td class="id">${item["id"] + td_class}</td>
+                            <td class=${td_class}>${timeToString(item["raising_time"])}</td>
                             <td>${item["managed_object"]}</td>
                             <td>${item["object_name"]}</td>
                             <td>${item["slogan"]}</td>

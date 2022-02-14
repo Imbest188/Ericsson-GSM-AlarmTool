@@ -76,7 +76,6 @@ class EricssonTelnet:
         try:
             self.__retries_counter += 1
             channel_output = self.__telnet.read_very_eager().decode('ascii')
-            print(channel_output)
             if 'Timeout' in channel_output or self.__retries_counter >= 10:
                 self.__retries_counter = 0
                 self.__heartbeat()

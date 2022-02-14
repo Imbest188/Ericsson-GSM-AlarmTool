@@ -17,11 +17,13 @@
         const alarm_template = "{% url 'alarms' %}";
         const alarm_text_request = "{% url 'get_alarm_text' %}";
         const controller_list_request = "{% url 'controller_list' %}";
-        const get_updates = "{% url 'nodes_update_id' %}";
+        const get_updates = "{% url 'get_updates' %}";
         var current_controller = "";
-        $(document).ready(get_controller_list());
+        $(document).ready(start_alarm_updater());
+
     </script>
     <form class="alarm_header" method="GET">
+        <label id="controller_name"></label>
         <div id="controller_row" class="col align-content-xxl-stretch"></div>
     </form>
 </head>
@@ -43,7 +45,7 @@
     </table>
 </div>
 </body>
-
+<script>$(document).ready(context_menu());</script>
 <footer class="alarm_footer">
     <button class="btn-close" id="close_footer" onclick="close_footer()"></button>
     <div id="alarm_text"></div>

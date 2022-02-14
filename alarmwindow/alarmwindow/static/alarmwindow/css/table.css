@@ -19,29 +19,8 @@ tr:nth-child(2n) {
     color: black;
 }
 
-.red {
-    background-color: #ff7c73;
-    color: black;
-}
-
-.orange {
-    background-color: #f58c5f;
-    color: black;
-}
-
-.yellow {
-    background-color: #fcd18b;
-    color: black;
-}
-
-.lightblue {
-    background-color: #79a9fc;
-    color: black;
-}
-
-.blue {
-    background-color: #8be8fc;
-    color: black;
+.red-td {
+    color: red;
 }
 
 .coloredrow {
@@ -65,9 +44,11 @@ tr:nth-child(2n) {
 
 .alarm_header {
     background-color: #0b1629;
+    display: inline-flex;
     position: sticky;
     overflow: visible;
     height: 90px;
+    width: 100%;
     top: 0px;
     z-index: 5;
 }

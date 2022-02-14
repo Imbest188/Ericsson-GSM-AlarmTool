@@ -13,6 +13,7 @@ class Alarms(models.Model):
     text = models.CharField(max_length=300)
     is_active = models.BooleanField()
     node_id = models.IntegerField()
+    node_update_id = models.IntegerField()
 
     def toDict(self):
         return {
@@ -23,7 +24,8 @@ class Alarms(models.Model):
             'managed_object': self.managed_object,
             'object_name': self.object_name,
             'slogan': self.slogan,
-            'descr': self.descr
+            'descr': self.descr,
+            'node_update_id': self.node_update_id
         }
 
 

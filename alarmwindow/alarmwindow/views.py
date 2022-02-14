@@ -41,11 +41,10 @@ def get_controller_list(request):
 
 def get_nodes_update_id(request):
     controllers = Nodes.objects.values()
-    updates = [{x['name'], x['update_id']} for x in controllers]
-    response = {
-        'updates': updates
-    }
-    return JsonResponse(response)
+    updates = {'updates': [{'name': x['name'], 'update_id': x['update_id']} for x in controllers]}
+
+    print(updates);
+    return JsonResponse(updates)
 
 
 class AlarmView(TemplateView):
