@@ -2,15 +2,14 @@ var updates = {}
 var unchecked_updates = {}
 
 function process_updates(response) {
-    //updates.keys().length;
     $.each(response["updates"], function (index, item) {
         var name = item['name'];
         var value = item['update_id'];
-        if (updates.hasOwnProperty(name)){
-            if(updates[name] != value){
+        if (unchecked_updates.hasOwnProperty(name)){
+            if(unchecked_updates[name] != value){
+                unchecked_updates[name] = value;
                 if(name == current_controller){
-                    updateAlarms(current_controller, get_controller_update_id(name));
-                    unchecked_updates[name] = value;
+                    updateAlarms(current_controller, get_old_update_id(name));
                 }
                 else {
                     $('#'+name).css({'color': 'red'});
@@ -19,7 +18,7 @@ function process_updates(response) {
         }
         else {
             updates[name] = value;
-            unchecked_updates = value;
+            unchecked_updates[name] = value;
             init_controllers([name]);
         }
     });
@@ -38,7 +37,7 @@ function get_controllers_update_id() {
     })
 }
 
-function get_controller_update_id(controller) {
+function get_old_update_id(controller) {
     return updates[controller];
 }
 

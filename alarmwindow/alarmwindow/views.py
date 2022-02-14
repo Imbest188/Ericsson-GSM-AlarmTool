@@ -61,7 +61,7 @@ class AlarmView(TemplateView):
     def get(self, request: WSGIRequest, **kwargs):
         if is_ajax(request) and request.method == "GET":
             node_id = self.__get_node_id(request.GET.dict())
-            alarms = Alarms.objects.filter(node_id=node_id, is_active=True).order_by('raising_time')
+            alarms = Alarms.objects.filter(node_id=node_id).order_by('raising_time')
             return JsonResponse({"alarms": [x.toDict() for x in alarms]}, status=200)
 
         alarms = Alarms.objects.all()

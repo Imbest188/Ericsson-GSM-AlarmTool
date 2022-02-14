@@ -51,7 +51,8 @@ function controllerButtonClicked(node_name) {
     document.getElementById("controller_name").innerText = node_name;
     $('#' + node_name).css({'color': '#79a9fc'});
     $('.alarm_footer').hide();
-    updateAlarms(node_name, get_controller_update_id(node_name));
+    updateAlarms(node_name, get_old_update_id(node_name));
+    alert('new value ' + unchecked_updates[node_name] + ' and old' + get_old_update_id(node_name))
     $('html').animate({
             scrollTop: 0
         }, 30
@@ -67,23 +68,33 @@ function updateAlarms(node_name, id= -1) {
             $("#alarm_table tbody").html("");
             $.each(response["alarms"], function (index, item) {
                 var td_class = "default";
-
-                if(id > -1 && item["node_update_id"] >= id) {
-                    td_class = "red-td";
+                var is_valid = true;
+                if(id > -1 && item["node_update_id"] > id) {
+                    if(item['is_active'])
+                        td_class = "red-td";
+                    else
+                        td_class = 'gray-td';
+                }
+                else if(item['is_active'] === false) {
+                    is_valid = false;
                 }
                 // language=HTML
-                $("#alarm_table tbody").prepend(
-                    `
-                        <tr class="clickablerow">
-                            <td class="coloredrow">${item["type"]}</td>
-                            <td class="id">${item["id"] + td_class}</td>
-                            <td class=${td_class}>${timeToString(item["raising_time"])}</td>
-                            <td>${item["managed_object"]}</td>
-                            <td>${item["object_name"]}</td>
-                            <td>${item["slogan"]}</td>
-                            <td>${item["descr"]}</td>
-                        </tr>`
-                )
+                if(is_valid) {
+                    $("#alarm_table tbody").prepend(
+                        `
+                            <tr class="clickablerow"}>
+                                <td class="coloredrow">${item["type"]}</td>
+                                <td class="id">${item["id"]}</td>
+                                <td class=${td_class}>${timeToString(item["raising_time"])}</td>
+                                <td>${timeToString(item["ceasing_time"])}</td>
+                                <td>${item["managed_object"]}</td>
+                                <td>${item["object_name"]}</td>
+                                <td>${item["slogan"]}</td>
+                                <td>${item["descr"]}</td>
+                                <td>${item["node_update_id"]}</td>
+                            </tr>`
+                    )
+                }
             });
             $('td.coloredrow').each(function () {
                 var x = $(this).text();

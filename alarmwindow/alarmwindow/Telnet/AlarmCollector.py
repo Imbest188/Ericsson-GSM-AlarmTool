@@ -41,9 +41,9 @@ class AlarmCollector(object):
     def __push_alarms(self, alarms):
         new_alarms = [x for x in alarms['alarms'] if x.is_active]
         ceased_alarms = [x for x in alarms['alarms'] if not x.is_active]
+        self.db.increase_update_id(alarms['node_id'])
         self.db.insert_new_alarms(new_alarms)
         self.db.update_ceased_alarms(ceased_alarms)
-        self.db.increase_update_id(alarms['node_id'])
 
     def __listening(self):
         while True:

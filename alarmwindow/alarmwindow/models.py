@@ -25,6 +25,7 @@ class Alarms(models.Model):
             'object_name': self.object_name,
             'slogan': self.slogan,
             'descr': self.descr,
+            'is_active': self.is_active,
             'node_update_id': self.node_update_id
         }
 

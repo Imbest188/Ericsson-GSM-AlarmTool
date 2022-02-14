@@ -75,12 +75,17 @@ class AlarmDatabase:
     def update_ceased_alarms(self, alarm_objects: list[Alarm]):
         if not len(alarm_objects):
             return
+        update_id = self.get_current_update_id(alarm_objects[0].node_id)
         conn = self.engine.connect()
         transaction = conn.begin()
         for alarm in alarm_objects:
             upd = update(self.alarms).where(
                 self.alarms.c.id == alarm.id
-            ).values({'is_active': False, 'ceasing_time': alarm.ceasing_time})
+            ).values({
+                'is_active': False,
+                'ceasing_time': alarm.ceasing_time,
+                'node_update_id': update_id
+            })
             conn.execute(upd)
         transaction.commit()
 
@@ -89,7 +94,7 @@ class AlarmDatabase:
         upd = update(self.nodes).where(
             self.nodes.c.id == controller_id
         ).values(
-            {'update_id': self.nodes.c.update_id + 1}# if self.nodes.c.update_id < 9 else 0}
+            {'update_id': self.nodes.c.update_id + 1}
         )
         conn.execute(upd)
 

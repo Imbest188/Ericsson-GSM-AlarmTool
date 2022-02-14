@@ -23,6 +23,10 @@ tr:nth-child(2n) {
     color: red;
 }
 
+.gray-td {
+    color: cadetblue;
+}
+
 .coloredrow {
     color: black;
     width: 62px;
