@@ -5,7 +5,6 @@ from ..Telnet.Alarm import Alarm
 
 class AlarmDatabase:
     def __init__(self):
-        print('init')
         self.engine = create_engine('sqlite:///alarms.db')
         self.create_alarm_table()
         self.clear_tables()
@@ -28,7 +27,8 @@ class AlarmDatabase:
                             Column('descr', String(60)),
                             Column('text', String(300), nullable=False),
                             Column('is_active', Boolean(), nullable=False),
-                            Column('node_id', Integer())
+                            Column('node_id', Integer()),
+                            Column('node_update_id', Integer())
                             )
 
         self.nodes = Table('alarmwindow_nodes', metadata,
@@ -38,9 +38,19 @@ class AlarmDatabase:
                            )
         metadata.create_all(self.engine)
 
+    def get_current_update_id(self, node_id) -> int:
+        conn = self.engine.connect()
+        query = select(self.nodes.c.update_id).where(
+            self.nodes.c.id == node_id
+        )
+        result = conn.execute(query).fetchone()
+        return result[0]
+
     def insert_new_alarms(self, alarm_objects: list[Alarm]):
         if not len(alarm_objects):
             return
+
+        update_id = self.get_current_update_id(alarm_objects[0].node_id)
         query = insert(self.alarms).values(
             [
                 {
@@ -53,10 +63,12 @@ class AlarmDatabase:
                     'descr': alarm.descr,
                     'text': alarm.text,
                     'is_active': alarm.is_active,
-                    'node_id': alarm.node_id
+                    'node_id': alarm.node_id,
+                    'node_update_id': update_id
                 } for alarm in alarm_objects
             ]
         )
+
         conn = self.engine.connect()
         conn.execute(query)
 
