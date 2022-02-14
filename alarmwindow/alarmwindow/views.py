@@ -39,6 +39,15 @@ def get_controller_list(request):
     return JsonResponse(response)
 
 
+def get_nodes_update_id(request):
+    controllers = Nodes.objects.values()
+    updates = [{x['name'], x['update_id']} for x in controllers]
+    response = {
+        'updates': updates
+    }
+    return JsonResponse(response)
+
+
 class AlarmView(TemplateView):
     template_name = 'alarmwindow/alarms.html'
 

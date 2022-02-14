@@ -46,13 +46,12 @@ class EricssonTelnet:
     def __heartbeat(self):
         self.__is_busy = True
         self.__telnet.write(b'\r\n')
+        time.sleep(0.2)
         self.__telnet.write(b'\x04')
         self.__is_busy = False
 
     def __parse(self, alarm_text):
         for alarm in alarm_text.split('END'):
-            if len(self.__alarms) > 1000:
-                self.__alarms.pop(0)
             self.__alarms.append(alarm.strip())
 
     @staticmethod
@@ -77,6 +76,7 @@ class EricssonTelnet:
         try:
             self.__retries_counter += 1
             channel_output = self.__telnet.read_very_eager().decode('ascii')
+            print(channel_output)
             if 'Timeout' in channel_output or self.__retries_counter >= 10:
                 self.__retries_counter = 0
                 self.__heartbeat()

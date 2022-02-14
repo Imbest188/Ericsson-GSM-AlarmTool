@@ -1,5 +1,27 @@
+function get_controllers_update_id() {
+    $.ajax({
+        type: $(this).attr('GET'),
+        url: get_updates,
+        success: function (response) {
+            var updates = response['updates'];
+            if(updates.length > 0) {
+                $.each(updates, function (index, item){
+
+                }
+                //updateAlarms(current_controller);
+            }
+        },
+        error: function (response) {
+            console.log('update error');
+            // may return value
+        }
+    })
+}
+
+
 function start_alarm_updater(controllers) {
 //background-image: linear-gradient(#541a0f 0, #0c0d0d 100%);
+    var dict = {};
     setInterval(function () {
 
     }, 5000);

@@ -13,7 +13,6 @@ class EricssonNode(EricssonTelnet):
         self.id = -1
 
     def __pack(self, alarms) -> dict:
-        print(f'packed {len(alarms)}')
         return {'alarms': alarms, 'node_id': self.id}
 
     def read_alarms(self) -> dict:
@@ -39,8 +38,6 @@ class EricssonNode(EricssonTelnet):
         for block in self.__replace_tokens(output_data).split('\n\n\n'):
             if re.findall(ALARM_TYPE_REGEXP, block):
                 alarms.append(Alarm(block.strip(), self.id))
-                print('find alarm')
-        print(f'returned {len(alarms)} alarms')
         return alarms
 
 

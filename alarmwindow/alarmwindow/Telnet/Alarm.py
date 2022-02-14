@@ -32,6 +32,8 @@ class Alarm:
             self.ceasing_time = datetime_object
 
     def __parse_header(self, header_parts) -> bool:
+        if not len(header_parts):
+            return False
         type_identity = re.findall(ALARM_TYPE_REGEXP, header_parts[0])
         if not len(type_identity):
             return False
@@ -119,6 +121,7 @@ class Alarm:
         self.is_valid = True
 
     def __init__(self, alarm_text: str, node_id: int):
+        print(f'text: {alarm_text}')
         self.type = ''
         self.raising_time = None
         self.ceasing_time = None
@@ -129,9 +132,9 @@ class Alarm:
         self.text = ''
         self.id = 0
         self.is_active = True
+        self.is_valid = False
         self.__parse_content(alarm_text)
         self.node_id = node_id
-        self.is_valid = False
 
     def __str__(self):
         return f'type:{self.type} dt:{self.raising_time} mo:{self.managed_object} name:{self.object_name}' \
