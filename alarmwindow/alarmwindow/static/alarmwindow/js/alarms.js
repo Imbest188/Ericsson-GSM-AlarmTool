@@ -59,6 +59,26 @@ function controllerButtonClicked(node_name) {
     );
 }
 
+alarm_colors = {
+    "A1/": "#ff7c73",
+    "A2/": "#f58c5f",
+    "A3/": "#fcd18b",
+    "O1/": "#79a9fc",
+    "O2/": "#8be8fc"
+}
+
+function get_color(td_text, is_active) {
+    if (is_active) {
+        for (const [identity, color] of Object.entries(alarm_colors)) {
+            if (td_text.includes(identity)) {
+                return "background-color:" + color;
+            }
+        }
+        ;
+    }
+    return "background-color:darkslategray";
+}
+
 function updateAlarms(node_name, id= -1) {
     $.ajax({
         type: $(this).attr('GET'),
@@ -69,13 +89,14 @@ function updateAlarms(node_name, id= -1) {
             $.each(response["alarms"], function (index, item) {
                 var td_class = "default";
                 var is_valid = true;
+                var is_active = item['is_active'];
                 if(id > -1 && item["node_update_id"] > id) {
-                    if(item['is_active'])
+                    if(is_active)
                         td_class = "red-td";
                     else
                         td_class = 'gray-td';
                 }
-                else if(item['is_active'] === false) {
+                else if(is_active === false) {
                     is_valid = false;
                 }
                 // language=HTML
@@ -83,27 +104,17 @@ function updateAlarms(node_name, id= -1) {
                     $("#alarm_table tbody").prepend(
                         `
                             <tr class="clickablerow"}>
-                                <td class="coloredrow">${item["type"]}</td>
-                                <td class="id">${item["id"]}</td>
+                                <td class="coloredrow" style=${get_color(item["type"], is_active)}>${item["type"]}</td>
+                                <td class=${td_class}>${item["id"]}</td>
                                 <td class=${td_class}>${timeToString(item["raising_time"])}</td>
-                                <td>${timeToString(item["ceasing_time"])}</td>
-                                <td>${item["managed_object"]}</td>
-                                <td>${item["object_name"]}</td>
-                                <td>${item["slogan"]}</td>
-                                <td>${item["descr"]}</td>
-                                <td>${item["node_update_id"]}</td>
+                                <td class="gray-td">${timeToString(item["ceasing_time"])}</td>
+                                <td class=${td_class}>${item["managed_object"]}</td>
+                                <td class=${td_class}>${item["object_name"]}</td>
+                                <td class=${td_class}>${item["slogan"]}</td>
+                                <td class=${td_class}>${item["descr"]}</td>
                             </tr>`
                     )
                 }
-            });
-            $('td.coloredrow').each(function () {
-                var x = $(this).text();
-                if (x.includes("A1/")) $(this).css({background: '#ff7c73'});
-                else if (x.includes("A2/")) $(this).css({background: '#f58c5f'});
-                else if (x.includes("A3/")) $(this).css({background: '#fcd18b'});
-                else if (x.includes("O1/")) $(this).css({background: '#79a9fc'});
-                else if (x.includes("O2/")) $(this).css({background: '#8be8fc'});
-
             });
 
             $("tr.clickablerow").each(function (index) {
