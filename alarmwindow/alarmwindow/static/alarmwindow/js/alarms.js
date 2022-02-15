@@ -1,5 +1,5 @@
 function context_menu() {
-    document.body.addEventListener('contextmenu', function(ev) {
+    document.body.addEventListener('contextmenu', function (ev) {
         ev.preventDefault();
         refresh_controller_update_id(current_controller);
         updateAlarms(current_controller);
@@ -8,8 +8,7 @@ function context_menu() {
 }
 
 function timeToString(dt) {
-    if (dt == null)
-        return "";
+    if (dt == null) return "";
     return dt.replace("-", ".")
         .replace("-", ".")
         .replace("T", " ")
@@ -23,23 +22,18 @@ function close_footer() {
 
 function get_alarm_text(alarm_id, controller_name) {
     $.ajax({
-        type: $(this).attr('GET'),
-        url: alarm_text_request,
-        data: {
-            alarm_id: alarm_id,
-            controller: controller_name
-        },
-        success: function (response) {
+        type: $(this).attr('GET'), url: alarm_text_request, data: {
+            alarm_id: alarm_id, controller: controller_name
+        }, success: function (response) {
 
-            var text = response['text'].toString().replaceAll('\n', '<br>');
-            var row_count = text.split('<br>').length;
-            var new_height = 30 * row_count + 'px';
-            var new_margin = 100 - (4.5 * row_count);
+            let text = response['text'].toString().replaceAll('\n', '<br>');
+            let row_count = text.split('<br>').length;
+            let new_height = 30 * row_count + 'px';
+            let new_margin = 100 - (4.5 * row_count);
             $('#alarm_text').html(text);
             $('.alarm_footer').css('height', new_height)
                 .css('top', new_margin + '%').show();
-        },
-        error: function (response) {
+        }, error: function (response) {
             $('#alarm_text').html('Error');
             $('.alarm_footer').css('height', '30px');
         }
@@ -47,16 +41,21 @@ function get_alarm_text(alarm_id, controller_name) {
 }
 
 function controllerButtonClicked(node_name) {
+    if (current_controller) {
+        $('#' + current_controller).css({
+            'font-weight': '1500'
+        });
+    }
+
     current_controller = node_name;
     document.getElementById("controller_name").innerText = node_name;
-    $('#' + node_name).css({'color': '#79a9fc'});
+    $('#' + node_name).css({'color': '#79a9fc'})
+        .css({'background': 'linear-gradient(92.83deg, lightgreen 0, green 100%)'});
     $('.alarm_footer').hide();
     updateAlarms(node_name, get_old_update_id(node_name));
-    alert('new value ' + unchecked_updates[node_name] + ' and old' + get_old_update_id(node_name))
     $('html').animate({
-            scrollTop: 0
-        }, 30
-    );
+        scrollTop: 0
+    }, 30);
 }
 
 alarm_colors = {
@@ -74,62 +73,54 @@ function get_color(td_text, is_active) {
                 return "background-color:" + color;
             }
         }
-        ;
     }
     return "background-color:darkslategray";
 }
 
-function updateAlarms(node_name, id= -1) {
+function add_row_click_listener() {
+    $("tr.clickablerow").each(function (index) {
+        let row = $(this).closest("tr");
+        row[0].addEventListener("click", function () {
+            let id = row.find("#id").text();
+            get_alarm_text(id, current_controller);
+        });
+    });
+}
+
+function updateAlarms(node_name, id = -1) {
     $.ajax({
-        type: $(this).attr('GET'),
-        url: alarm_template,
-        data: {node: node_name},
-        success: function (response) {
+        type: $(this).attr('GET'), url: alarm_template, data: {node: node_name}, success: function (response) {
             $("#alarm_table tbody").html("");
             $.each(response["alarms"], function (index, item) {
-                var td_class = "default";
-                var is_valid = true;
-                var is_active = item['is_active'];
-                if(id > -1 && item["node_update_id"] > id) {
-                    if(is_active)
-                        td_class = "red-td";
-                    else
-                        td_class = 'gray-td';
-                }
-                else if(is_active === false) {
+                let td_class = "default";
+                let is_valid = true;
+                let is_active = item['is_active'];
+                if (id > -1 && item["node_update_id"] > id) {
+                    if (is_active) td_class = "red-td";
+                    else td_class = 'gray-td';
+                } else if (is_active === false) {
                     is_valid = false;
                 }
                 // language=HTML
-                if(is_valid) {
-                    $("#alarm_table tbody").prepend(
-                        `
-                            <tr class="clickablerow"}>
-                                <td class="coloredrow" style=${get_color(item["type"], is_active)}>${item["type"]}</td>
-                                <td class=${td_class}>${item["id"]}</td>
-                                <td class=${td_class}>${timeToString(item["raising_time"])}</td>
-                                <td class="gray-td">${timeToString(item["ceasing_time"])}</td>
-                                <td class=${td_class}>${item["managed_object"]}</td>
-                                <td class=${td_class}>${item["object_name"]}</td>
-                                <td class=${td_class}>${item["slogan"]}</td>
-                                <td class=${td_class}>${item["descr"]}</td>
-                            </tr>`
-                    )
+                if (is_valid) {
+                    $("#alarm_table tbody").prepend(`
+                        <tr class="clickablerow" }>
+                            <td class="coloredrow" style=${get_color(item["type"], is_active)}>${item["type"]}</td>
+                            <td id="id" class=${td_class}>${item["id"]}</td>
+                            <td class=${td_class}>${timeToString(item["raising_time"])}</td>
+                            <td class="gray-td">${timeToString(item["ceasing_time"])}</td>
+                            <td class=${td_class}>${item["managed_object"]}</td>
+                            <td class=${td_class}>${item["object_name"]}</td>
+                            <td class=${td_class}>${item["slogan"]}</td>
+                            <td class=${td_class}>${item["descr"]}</td>
+                        </tr>`)
                 }
             });
-
-            $("tr.clickablerow").each(function (index) {
-                var row = $(this).closest("tr");
-                row[0].addEventListener("click", function () {
-                    var id = row.find(".id").text();
-                    get_alarm_text(id, current_controller);
-                });
-            });
-
-        },
-        error: function (response) {
+            add_row_click_listener();
+        }, error: function (response) {
             alert("Error");
             console.log(response)
         }
     });
     return false;
-};
+}

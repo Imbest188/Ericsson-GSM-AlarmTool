@@ -32,7 +32,6 @@ def get_alarm_text(request):
 def get_controller_list(request):
     controllers = Nodes.objects.values()
     names = [x['name'] for x in controllers]
-    print(names)
     response = {
         'controllers': names
     }
@@ -42,8 +41,6 @@ def get_controller_list(request):
 def get_nodes_update_id(request):
     controllers = Nodes.objects.values()
     updates = {'updates': [{'name': x['name'], 'update_id': x['update_id']} for x in controllers]}
-
-    print(updates);
     return JsonResponse(updates)
 
 
@@ -65,7 +62,7 @@ class AlarmView(TemplateView):
             return JsonResponse({"alarms": [x.toDict() for x in alarms]}, status=200)
 
         alarms = Alarms.objects.all()
-        ctx = {'charging': [], 'alarms': alarms}
+        ctx = {'alarms': alarms}
         return render(request, self.template_name, ctx)
 
 

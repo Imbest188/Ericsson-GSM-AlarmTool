@@ -3,8 +3,8 @@ var unchecked_updates = {}
 
 function process_updates(response) {
     $.each(response["updates"], function (index, item) {
-        var name = item['name'];
-        var value = item['update_id'];
+        let name = item['name'];
+        let value = item['update_id'];
         if (unchecked_updates.hasOwnProperty(name)){
             if(unchecked_updates[name] != value){
                 unchecked_updates[name] = value;
@@ -49,7 +49,7 @@ function start_alarm_updater() {
     get_controllers_update_id();
     setInterval(function () {
         get_controllers_update_id();
-    }, 5000);
+    }, 3000);
 }
 
 function init_controllers(controllers) {
@@ -57,9 +57,7 @@ function init_controllers(controllers) {
         $("#controller_row").prepend(
             `<button class="controller-button" id=${item} role="button"
                 onClick="controllerButtonClicked($(this).text()); return false;">${item}</button>`)
-
     });
-    //$("#controller_row").prepend(`<label id="controller_name"></label>`);
 }
 
 function get_controller_list() {
