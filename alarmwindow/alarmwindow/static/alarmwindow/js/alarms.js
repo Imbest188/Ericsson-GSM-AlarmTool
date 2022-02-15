@@ -42,15 +42,11 @@ function get_alarm_text(alarm_id, controller_name) {
 
 function controllerButtonClicked(node_name) {
     if (current_controller) {
-        $('#' + current_controller).css({
-            'font-weight': '1500'
-        });
+        $('#' + current_controller).css({'color': '#79a9fc'});
     }
-
     current_controller = node_name;
     document.getElementById("controller_name").innerText = node_name;
-    $('#' + node_name).css({'color': '#79a9fc'})
-        .css({'background': 'linear-gradient(92.83deg, lightgreen 0, green 100%)'});
+    $('#' + node_name).css({'color': 'lightgreen'});
     $('.alarm_footer').hide();
     updateAlarms(node_name, get_old_update_id(node_name));
     $('html').animate({

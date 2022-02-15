@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine, insert, update, delete, select, exc
 from sqlalchemy import MetaData, Table, String, Integer, Column, Boolean, DateTime
+from sqlalchemy import create_engine, insert, update, delete, select, exc
+
 from ..Telnet.Alarm import Alarm
 
 
@@ -49,7 +50,7 @@ class AlarmDatabase:
     def insert_new_alarms(self, alarm_objects: list[Alarm]):
         if not len(alarm_objects):
             return
-
+        target_node = None
         update_id = self.get_current_update_id(alarm_objects[0].node_id)
         query = insert(self.alarms).values(
             [
@@ -64,7 +65,8 @@ class AlarmDatabase:
                     'text': alarm.text,
                     'is_active': alarm.is_active,
                     'node_id': alarm.node_id,
-                    'node_update_id': update_id
+                    'node_update_id': update_id if alarm.node_id == target_node
+                    else self.get_current_update_id(alarm.node_id)
                 } for alarm in alarm_objects
             ]
         )
@@ -75,10 +77,14 @@ class AlarmDatabase:
     def update_ceased_alarms(self, alarm_objects: list[Alarm]):
         if not len(alarm_objects):
             return
-        update_id = self.get_current_update_id(alarm_objects[0].node_id)
         conn = self.engine.connect()
         transaction = conn.begin()
+        last_node = None
+        update_id = self.get_current_update_id(alarm_objects[0].node_id)
         for alarm in alarm_objects:
+            if last_node != alarm.node_id:
+                update_id = self.get_current_update_id(alarm.node_id)
+                last_node = alarm.node_id
             upd = update(self.alarms).where(
                 self.alarms.c.id == alarm.id
             ).values({
